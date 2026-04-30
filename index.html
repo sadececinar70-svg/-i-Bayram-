@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>1 Mayıs Kutlaması</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #121212;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            overflow: hidden;
+            color: white;
+        }
+
+        /* Giriş Ekranı */
+        #main-container {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .tap-zone {
+            width: 200px;
+            height: 200px;
+            background: rgba(211, 47, 47, 0.1);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border: 2px dashed #d32f2f;
+            animation: pulse 2s infinite;
+            cursor: pointer;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(211, 47, 47, 0.4); }
+            70% { transform: scale(1.05); box-shadow: 0 0 0 30px rgba(211, 47, 47, 0); }
+            100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(211, 47, 47, 0); }
+        }
+
+        .instruction {
+            margin-top: 30px;
+            font-size: 1.1rem;
+            letter-spacing: 1px;
+            color: #ccc;
+            text-transform: uppercase;
+        }
+
+        /* Kutlama Kartı (Başlangıçta Gizli) */
+        #celebration {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(160deg, #b71c1c 0%, #801313 100%);
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 30px;
+            text-align: center;
+            z-index: 100;
+        }
+
+        .show-anim {
+            display: flex !important;
+            animation: slideUp 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+        }
+
+        @keyframes slideUp {
+            0% { transform: translateY(100%); }
+            100% { transform: translateY(0); }
+        }
+
+        h1 {
+            font-size: 15vw; /* Mobil ekran genişliğine göre büyür */
+            margin: 0;
+            color: #ffc107;
+            text-shadow: 3px 3px 0px rgba(0,0,0,0.2);
+        }
+
+        .message {
+            font-size: 1.4rem;
+            margin: 20px 0;
+            line-height: 1.4;
+            font-weight: 300;
+        }
+
+        .divider {
+            width: 60px;
+            height: 4px;
+            background-color: #ffc107;
+            margin: 20px auto;
+        }
+
+.btn-close {
+            margin-top: 40px;
+            background: transparent;
+            border: 1px solid white;
+            color: white;
+            padding: 12px 30px;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-close:hover {
+            background: white;
+            color: #801313;
+            transform: scale(1.05);
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
+        }
+
+        .btn-close:active {
+            transform: scale(0.95);
+        }
+
+        /* Arka Plan Animasyonu - Hareketli Gradient */
+        .bg-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(160deg, #b71c1c 0%, #801313 100%);
+            z-index: -1;
+        }
+
+        .bg-animation::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 60%);
+            animation: bgMove 8s ease-in-out infinite;
+        }
+
+        @keyframes bgMove {
+            0% { transform: translate(0, 0) rotate(0deg); }
+            50% { transform: translate(30px, 30px) rotate(180deg); }
+            100% { transform: translate(0, 0) rotate(360deg); }
+        }
+
+        /* Yıldız Efekti */
+        .stars {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .star {
+            position: absolute;
+            width: 3px;
+            height: 3px;
+            background: white;
+            border-radius: 50%;
+            opacity: 0;
+            animation: twinkle 2s ease-in-out infinite;
+        }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: 0; transform: scale(0.5); }
+            50% { opacity: 0.8; transform: scale(1); }
+        }
+
+        /* Typewriter Animasyonu */
+        .typewriter {
+            overflow: hidden;
+            border-right: 2px solid #ffc107;
+            white-space: nowrap;
+            animation: typing 3s steps(40, end), blink-caret 0.75s step-end infinite;
+            width: 0;
+            display: inline-block;
+        }
+
+        @keyframes typing {
+            from { width: 0; }
+            to { width: 100%; }
+        }
+
+        @keyframes blink-caret {
+            from, to { border-color: transparent; }
+            50% { border-color: #ffc107; }
+        }
+
+        /* message metni için */
+        .fade-in {
+            opacity: 0;
+            animation: fadeIn 1s ease-out 0.5s forwards;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* divider için */
+        .divider {
+            width: 60px;
+            height: 4px;
+            background-color: #ffc107;
+            margin: 20px auto;
+            transform: scaleX(0);
+            animation: expandWidth 0.8s ease-out 0.3s forwards;
+        }
+
+        @keyframes expandWidth {
+            to { transform: scaleX(1); }
+        }
+
+    </style>
+</head>
+<body>
+
+    <div id="main-container" onclick="startCelebration()">
+        <div class="tap-zone">
+            <span style="font-size: 80px;">✊</span>
+        </div>
+        <div class="instruction">Emeğe Dokun</div>
+    </div>
+
+<div id="celebration">
+        <div class="bg-animation"></div>
+        <div class="stars" id="stars"></div>
+        <h1>1 MAYIS</h1>
+        <div class="divider"></div>
+        <div class="message fade-in">
+            İşçinin ve emekçinin bayramı <br> 
+            <strong>Kutlu Olsun!</strong>
+        </div>
+        <p class="fade-in" style="opacity: 0.8; font-size: 0.9rem;">Yaşasın 1 Mayıs!</p>
+        
+        <button class="btn-close" onclick="location.reload()">Tekrarla</button>
+    </div>
+
+<script>
+        function createStars() {
+            const starsContainer = document.getElementById('stars');
+            const starCount = 50;
+            
+            for (let i = 0; i < starCount; i++) {
+                const star = document.createElement('div');
+                star.className = 'star';
+                star.style.left = Math.random() * 100 + '%';
+                star.style.top = Math.random() * 100 + '%';
+                star.style.animationDelay = Math.random() * 2 + 's';
+                star.style.animationDuration = (Math.random() * 2 + 1) + 's';
+                starsContainer.appendChild(star);
+            }
+        }
+
+        function startCelebration() {
+            // Hafif bir titreşim (destekleyen cihazlarda)
+            if (navigator.vibrate) {
+                navigator.vibrate(50);
+            }
+            
+            createStars();
+            document.getElementById('main-container').style.display = 'none';
+            document.getElementById('celebration').classList.add('show-anim');
+        }
+    </script>
+</body>
+</html>
